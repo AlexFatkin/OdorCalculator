@@ -1,51 +1,59 @@
-# Этилацетат (Марка А, высший сорт, ГОСТ) (200мл - объём в одной банке):
-# плотность этилацетата: p = 0,902 г/куб.см = 0,902 г/мл
-# плотность воды: p = 1г/мл
-# молекулярный вес этилацетата: M = 88,1 г/моль
-# растворимость этилацетата по массе при стандартных условиях (20-25С) = 10-12%
+def calculate_dilution(target_concentration: float):
+    """Функция для создания серии разбавлений, необходимых для достижения заданной концентрации раствора этилацетата.
+    Выводит в консоль шаги серии разбавлений, конечную концентрацию и погрешность разбавления.
+    :param target_concentration: Требуемая конечная концентрация раствора (моль/л)
+    :return: Список шагов в серии разбавлений, погрешность разбавления в %
 
-"""Создать функцию, рассчитывающую сколько надо добавить растворителя к определённому объему этилацетата,
-чтобы понизить молярную концентрацию до заданной величины"""
+    """
+    mass_fraction = 11  # Массовая доля этилацетата (%)
+    density = 0.902  # Исходная плотность (г/мл)
+    max_flask_volume = 20  # Максимальный объем флакона (мл)
+    ether_molar_mass = 88.1  # Молярная масса этилацетата (г/моль)
+    tolerance = 0.25  # Погрешность разбавления (%)
+    minimum_volume = 0.02  # Минимальный объем, который можно набрать (цена деления) (мл)
 
-"""желаемая молярная концентрация = (кол-во в-ва раствор этилацетата)/(объем этилацетата(л) + объем растворителя(л))
- поэтому =>
+    initial_concentration = density * mass_fraction * 10 / ether_molar_mass  # Исходная концентрация этилацетата (моль/л)
+    molarity_tolerance = (tolerance / 100) * target_concentration  # Допустимая погрешность разбавления (моль/л)
 
-объем растворителя = ((кол-во в-ва раствор этилацетата)/(жел.моляр.конц))*1000 - объем этилацетата"""
-# Умножение на 1000 - перевод в литры)
+    current_concentration = initial_concentration
+    steps = []
+    flask_count = 0  # Количество флаконов
 
-"""Массовая доля этилацетата, соответствующая его верхней границе растворимости = 0.1 (берём по нижней границе,
-так как нужно разбавлять, и пользователь не должен получать объём разбавителя, при котором % этилацетата
-будет превышать его растворимость)
-связь массовой доли(w) и мольной доли(C): 
-С = (10*w*p)/M"""
+    if target_concentration > initial_concentration:
+        print('Максимальная концентрация этилацетата составляет 1,0238 моль/л. Выберите меньшую концентрацию.')
+        return None
 
-C_max_ethyl_acetate = (10 * 0.1 * 0.902) / 88.1
+    while abs(current_concentration - target_concentration) > molarity_tolerance:
+        # Цикл будет идти до тех пор, пока разница между текущей и требуемой концентрацией не станет пренебрежимо мала
 
-V_ethyl_acetate = int(input("Начальный объем этилацетата, мл: "))
-C_ethyl_acetate_desired = float(input("Желаемая молярная концентрация этилацетата, моль/л: "))
+        flask_count += 1
+        v_take = max_flask_volume * target_concentration / current_concentration  # Объем раствора, который нужно взять
+        v_take = round(v_take, 10)
 
-while C_ethyl_acetate_desired > C_max_ethyl_acetate:
-    print(f'Желаемая молярная концентрация этилацетата превышает его максимальную растворимость.\n' +
-          'Задайте другую молярную концентрацию, не превышающую ' + f'{C_max_ethyl_acetate:3f} моль/л\n')
-    C_ethyl_acetate_desired = float(input('Новая желаемая молярная концентрация этилацетата, моль/л: '))
+        if v_take < minimum_volume:  # Можно взять только минимально допустимый объем из-за ограничений
+            v_take = minimum_volume
 
-m_ethyl_acetate = V_ethyl_acetate * 0.902  # исходная масса этилацетата
-m_ethyl_acetate_soluted = m_ethyl_acetate * 0.11  # ниже укажем погрешность в +-1% растворимости
-n_ethyl_acetate_soluted = m_ethyl_acetate_soluted / 88.1  # кол-во в-ва растворённого этилацетата
-the_account_of_solution_error = (m_ethyl_acetate * 0.01) / 88.1  # учет погрешности растворимости этилацетата (10-12%)
+        # Приведение отбираемого объема к такому, который делится на минимальный объем (цену деления)
+        if round(v_take % minimum_volume, 10) != 0 and round(v_take % minimum_volume, 10) != minimum_volume:
+            v_take = round(round(v_take // minimum_volume, 10) * minimum_volume + minimum_volume, 10)
 
+        if v_take >= max_flask_volume:
+            break  # Значит текущая концентрация меньше требуемой
 
-def diluent_func():
-    V_diluent = (n_ethyl_acetate_soluted / C_ethyl_acetate_desired) * 1000 - V_ethyl_acetate  # масса растворителя
-    print("Потребуется " + f'{V_diluent:,.3f}' +
-          " мл растворителя (воды), чтобы достичь желаемой молярной концентрации этилацетата.")
+        if flask_count == 1:
+            steps.append(f'Возьмите {v_take} мл исходного раствора и поместите его в новый флакон')
+        else:
+            steps.append(f'Возьмите {v_take} мл раствора из предыдущего флакона и поместите его в новый флакон')
 
+        steps.append(f'Добавьте {round((max_flask_volume - v_take), 10)} мл воды во флакон')
+        current_concentration = v_take * current_concentration / max_flask_volume  # Расчет текущей концентрации
 
-def error_diluent_func():
-    V_diluent_solution_error = (the_account_of_solution_error / C_ethyl_acetate_desired) * 1000 - V_ethyl_acetate
-    print("Вероятно потребуется добавить или убавить " + f'{V_diluent_solution_error:,.3f}'
-          + " мл растворителя (воды) с учётом погрешности растворимости этилацетата.")
+    margin_of_error = abs(1 - target_concentration / current_concentration) * 100  # Получившаяся погрешность в %
 
+    print(f'Вам потребуется пузырьков: {flask_count} объемом {max_flask_volume} мл')
+    for step in steps:
+        print(step)
+    print(f'Концентрация составит: {current_concentration} моль/л')
+    print(f'Погрешность разбавления составила: {round(margin_of_error, 3)} %')
 
-diluent_func()
-error_diluent_func()
+    return steps, margin_of_error
