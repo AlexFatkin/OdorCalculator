@@ -1,0 +1,61 @@
+@startuml
+title   OdorCalculator
+
+
+
+
+skinparam class {
+BackgroundColor White
+ArrowColor Black
+BorderColor Black
+}
+skinparam object {
+BackgroundColor White
+ArrowColor Black
+BorderColor Black
+}
+scale 1.3
+skinparam DefaultTextAlignment left
+skinparam shadowing false
+skinparam packageStyle frame
+hide circle
+'hide members
+'skinparam monochrome true
+'note " lots in deal" as spread
+'package Storage {
+
+class odor_1{
+weight
+}
+class odor_2{
+weight
+}
+class Odor{
+sum_h_level
+add_subsys()
+diagram()
+}
+class Subsys{
+date_time
+temperature
+load()
+calibrate()
+}
+class User{
+age
+gender
+input()
+output()
+}
+class Harrington1{
+y_good
+y_bad
+}
+odor_2 --|> Subsys
+odor_1 --|> Subsys
+Odor "1"-"*" Subsys
+User -- Odor
+Subsys - Harrington1
+@enduml
+
+
