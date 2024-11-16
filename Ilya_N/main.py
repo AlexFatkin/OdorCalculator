@@ -16,12 +16,12 @@ def calculate_dilution(target_concentration: float) -> dict | None:
     """
     mass_fraction = 11  # Массовая доля этилацетата (%)
     density = 0.902  # Исходная плотность (г/мл)
-    max_flask_volume = 20  # Максимальный объем флакона (мл)
+    max_flask_volume = 10  # Максимальный объем флакона (мл)
     ether_molar_mass = 88.1  # Молярная масса этилацетата (г/моль)
     tolerance = 0.25  # Погрешность разбавления (%)
     minimum_volume = 0.01  # Минимальный объем, который можно набрать (цена деления) (мл)
 
-    initial_concentration = density * mass_fraction * 10 / ether_molar_mass  # Исходная концентрация этилацетата (моль/л)
+    initial_concentration = density * mass_fraction * 10 / ether_molar_mass  # Исходная концентрация этилацетата(моль/л)
     molarity_tolerance = (tolerance / 100) * target_concentration  # Допустимая погрешность разбавления (моль/л)
 
     current_concentration = initial_concentration
@@ -71,7 +71,8 @@ while True:
         concentration = float(concentration)
     except ValueError:
         print(
-            "Неверный формат. Введите требуемую концентрацию раствора в моль/л в формате вещественного числа со знаком точка")
+            "Неверный формат. Введите требуемую концентрацию раствора в моль/л "
+            "в формате вещественного числа со знаком точка")
     else:
         result = calculate_dilution(concentration)
         if result:
