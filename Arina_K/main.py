@@ -21,7 +21,7 @@
 
 C_max_ethyl_acetate = (10 * 10 * 0.902) / 88.1
 
-V_ethyl_acetate = int(input("Начальный объем этилацетата, мл: "))
+V_ethyl_acetate = float(input("Начальный объем этилацетата, мл: "))
 C_ethyl_acetate_desired = float(input("Желаемая молярная концентрация этилацетата, моль/л: "))
 
 while C_ethyl_acetate_desired > C_max_ethyl_acetate:
