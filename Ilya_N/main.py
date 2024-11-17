@@ -19,7 +19,7 @@ def calculate_dilution(target_concentration: float) -> dict | None:
     max_flask_volume = 10  # Максимальный объем флакона (мл)
     ether_molar_mass = 88.1  # Молярная масса этилацетата (г/моль)
     tolerance = 0.25  # Погрешность разбавления (%)
-    minimum_volume = 0.01  # Минимальный объем, который можно набрать (цена деления) (мл)
+    minimum_volume = 0.02  # Минимальный объем, который можно набрать (цена деления) (мл)
 
     initial_concentration = density * mass_fraction * 10 / ether_molar_mass  # Исходная концентрация этилацетата(моль/л)
     molarity_tolerance = (tolerance / 100) * target_concentration  # Допустимая погрешность разбавления (моль/л)
