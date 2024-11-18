@@ -34,7 +34,6 @@ def calculate_dilution(target_concentration: float) -> dict | None:
     while abs(current_concentration - target_concentration) > molarity_tolerance:
         # Цикл будет идти до тех пор, пока разница между текущей и требуемой концентрацией не станет пренебрежимо мала
 
-        flask_count += 1
         v_take = max_flask_volume * target_concentration / current_concentration  # Объем раствора, который нужно взять
         v_take = round(v_take, 10)
 
@@ -47,6 +46,8 @@ def calculate_dilution(target_concentration: float) -> dict | None:
 
         if v_take >= max_flask_volume:
             break  # Значит текущая концентрация меньше требуемой
+
+        flask_count += 1
 
         if flask_count == 1:
             steps.append(f'Возьмите {v_take} мл исходного раствора и поместите его в новый флакон')
