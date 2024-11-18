@@ -14,12 +14,12 @@ def calculate_dilution(target_concentration: float) -> dict | None:
             margin_of_error (float): погрешность разбавления в процентах.
         None: если целевая концентрация превышает исходную концентрацию раствора
     """
-    mass_fraction = 11  # Массовая доля этилацетата (%)
+    mass_fraction = 99.8  # Массовая доля этилацетата (%)
     density = 0.902  # Исходная плотность (г/мл)
     max_flask_volume = 10  # Максимальный объем флакона (мл)
     ether_molar_mass = 88.1  # Молярная масса этилацетата (г/моль)
     tolerance = 0.25  # Погрешность разбавления (%)
-    minimum_volume = 0.02  # Минимальный объем, который можно набрать (цена деления) (мл)
+    minimum_volume = 1  # Минимальный объем, который можно набрать (цена деления) (мл)
 
     initial_concentration = density * mass_fraction * 10 / ether_molar_mass  # Исходная концентрация этилацетата(моль/л)
     molarity_tolerance = (tolerance / 100) * target_concentration  # Допустимая погрешность разбавления (моль/л)
@@ -34,7 +34,6 @@ def calculate_dilution(target_concentration: float) -> dict | None:
     while abs(current_concentration - target_concentration) > molarity_tolerance:
         # Цикл будет идти до тех пор, пока разница между текущей и требуемой концентрацией не станет пренебрежимо мала
 
-        flask_count += 1
         v_take = max_flask_volume * target_concentration / current_concentration  # Объем раствора, который нужно взять
         v_take = round(v_take, 10)
 
@@ -47,6 +46,8 @@ def calculate_dilution(target_concentration: float) -> dict | None:
 
         if v_take >= max_flask_volume:
             break  # Значит текущая концентрация меньше требуемой
+
+        flask_count += 1
 
         if flask_count == 1:
             steps.append(f'Возьмите {v_take} мл исходного раствора и поместите его в новый флакон')
