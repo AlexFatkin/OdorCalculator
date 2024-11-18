@@ -14,7 +14,7 @@ def calculate_dilution(target_concentration: float) -> dict | None:
             margin_of_error (float): погрешность разбавления в процентах.
         None: если целевая концентрация превышает исходную концентрацию раствора
     """
-    mass_fraction = 11  # Массовая доля этилацетата (%)
+    mass_fraction = 99.8  # Массовая доля этилацетата (%)
     density = 0.902  # Исходная плотность (г/мл)
     max_flask_volume = 10  # Максимальный объем флакона (мл)
     ether_molar_mass = 88.1  # Молярная масса этилацетата (г/моль)
