@@ -40,8 +40,9 @@ class Harrington:
 
 if __name__ == '__main__':
     harrington = Harrington()
-    print('lg(C)')
+    print('lg(C) = 4')
     harrington.calc(1.5,-0.5, 4)
+    print('lg(C) = -2')
     harrington.calc(1.5, -0.5, -2)
     ...
     #  Передаем логику внутрь функции
