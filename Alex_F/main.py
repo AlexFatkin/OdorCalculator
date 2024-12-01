@@ -34,14 +34,14 @@ class Harrington:
         # print('h_bad ', self.h_bad)
         # print('b_1 ', self.b_1)
         # print('b_0', self.b_0)
-        print('d', self.d)
+        print('d = ', self.d)
         return self.d
 
 
 if __name__ == '__main__':
     harrington = Harrington()
     print('lg(C) = 4')
-    harrington.calc(1.5,-0.5, 4)
+    harrington.calc(1.5, -0.5, 4)
     print('lg(C) = -2')
     harrington.calc(1.5, -0.5, -2)
     ...
