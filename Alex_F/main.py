@@ -8,6 +8,7 @@ UML схема модуля
 Тест модуля находится в папке model/tests.
 """
 
+# import fireducks.pandas as pd
 import math
 
 
