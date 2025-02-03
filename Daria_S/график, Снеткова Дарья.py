@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     start = -1.0
     stop = 4.0
-    step = 0.1
+    step = 0.001
     x_list = []
     y_list = []
 
